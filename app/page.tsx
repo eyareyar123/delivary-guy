@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import DeliveryForm from "@/components/DelivaryForm";
 import DeliveryList from "@/components/DeliveryList";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 type DeliveryPoint = {
   id: number;
@@ -64,16 +65,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Dark mode toggle button fixed top right */}
-      <div className="fixed top-4 right-4 z-50">
-        <Button
-          size="lg"
-          className="px-8 py-4 text-xl font-semibold"
-          onClick={toggleDarkMode}
-        >
-          {isDark ? "Light Mode" : "Dark Mode"}
-        </Button>
-      </div>
+      <DarkModeToggle />
 
       <main className="min-h-screen p-20 bg-white dark:bg-gray-900 dark:text-white transition-colors duration-300">
         <main className="flex items-center justify-center">
