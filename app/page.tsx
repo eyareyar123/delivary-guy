@@ -1,33 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import DeliveryForm from "@/components/DelivaryForm";
+import { useState } from "react";
+import DeliveryForm from "@/components/DeliveryForm";
 import DeliveryList from "@/components/DeliveryList";
 import DarkModeToggle from "@/components/DarkModeToggle";
-
-type DeliveryPoint = {
-  id: number;
-  clientName: string;
-  address: string;
-  crates: number;
-};
+import { DeliveryPoint } from "@/types";
 
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
 
-  const handleAddPoint = (
-    clientName: string,
-    address: string,
-    crates: number
-  ) => {
-    const newPoint: DeliveryPoint = {
-      id: Date.now(),
-      clientName,
-      address,
-      crates,
-    };
-    setDeliveryPoints((prev) => [...prev, newPoint]);
+  const handleAddPoint = (NewDeliveryPoint: DeliveryPoint) => {
+    setDeliveryPoints((prev) => [...prev, NewDeliveryPoint]);
   };
 
   return (

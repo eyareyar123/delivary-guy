@@ -4,22 +4,30 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DeliveryPoint } from "@/types";
 
 type DeliveryFormProps = {
-  onAdd: (clientName: string, address: string, crates: number) => void;
+  onAdd: (point: DeliveryPoint) => void;
 };
 
 export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
   const [clientName, setClientName] = useState("");
   const [address, setAddress] = useState("");
   const [crates, setCrates] = useState(0);
+  const [preferredTime, setPreferredTime] = useState(0);
 
   const handleSubmit = () => {
     if (!clientName || !address) {
       alert("Please fill in all required fields.");
       return;
     }
-    onAdd(clientName, address, crates);
+    onAdd({
+      id: Date.now(),
+      clientName,
+      address,
+      crates,
+      preferredTime,
+    });
     clearValues();
   };
 
