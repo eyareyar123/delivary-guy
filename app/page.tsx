@@ -5,6 +5,7 @@ import DeliveryForm from "@/components/DeliveryForm";
 import DeliveryList from "@/components/DeliveryList";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { DeliveryPoint } from "@/types";
+import Map from "@/components/Map";
 
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
@@ -25,6 +26,7 @@ export default function Home() {
         <main className="flex items-center justify-center">
           <h1 className="text-4xl font-bold">Delivery Line Manager</h1>
         </main>
+        <Map />
 
         <DeliveryForm onAdd={handleAddPoint} />
 
