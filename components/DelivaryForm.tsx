@@ -7,10 +7,9 @@ import { Label } from "@/components/ui/label";
 
 type DeliveryFormProps = {
   onAdd: (clientName: string, address: string, crates: number) => void;
-  onCancel: () => void;
 };
 
-export default function DeliveryForm({ onAdd, onCancel }: DeliveryFormProps) {
+export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
   const [clientName, setClientName] = useState("");
   const [address, setAddress] = useState("");
   const [crates, setCrates] = useState(0);
@@ -21,6 +20,10 @@ export default function DeliveryForm({ onAdd, onCancel }: DeliveryFormProps) {
       return;
     }
     onAdd(clientName, address, crates);
+    clearValues();
+  };
+
+  const clearValues = () => {
     setClientName("");
     setAddress("");
     setCrates(0);
@@ -87,9 +90,9 @@ export default function DeliveryForm({ onAdd, onCancel }: DeliveryFormProps) {
         <Button
           variant="outline"
           className="flex-1 px-6 py-3 text-lg"
-          onClick={onCancel}
+          onClick={clearValues}
         >
-          Cancel
+          Clear
         </Button>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import DeliveryForm from "@/components/DelivaryForm";
+import DeliveryList from "@/components/DeliveryList";
 
 type DeliveryPoint = {
   id: number;
@@ -14,9 +15,6 @@ type DeliveryPoint = {
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [clientName, setClientName] = useState("");
-  const [address, setAddress] = useState("");
-  const [crates, setCrates] = useState(0);
 
   // Dark mode state
   const [isDark, setIsDark] = useState(false);
@@ -50,18 +48,18 @@ export default function Home() {
     }
   };
 
-  const handleAddPoint = () => {
+  const handleAddPoint = (
+    clientName: string,
+    address: string,
+    crates: number
+  ) => {
     const newPoint: DeliveryPoint = {
       id: Date.now(),
       clientName,
       address,
       crates,
     };
-    setDeliveryPoints([...deliveryPoints, newPoint]);
-    setClientName("");
-    setAddress("");
-    setCrates(0);
-    setShowForm(false);
+    setDeliveryPoints((prev) => [...prev, newPoint]);
   };
 
   return (
@@ -82,44 +80,9 @@ export default function Home() {
           <h1 className="text-4xl font-bold">Delivery Line Manager</h1>
         </main>
 
-        <div className="flex items-center justify-start bg-blue-500 mt-6 rounded-md">
-          <Button
-            className="px-6 py-3 text-lg"
-            onClick={() => setShowForm(true)}
-            variant="default"
-          >
-            Add Delivery Point
-          </Button>
-        </div>
+        <DeliveryForm onAdd={handleAddPoint} />
 
-        {showForm && (
-          <DeliveryForm
-            onAdd={handleAddPoint}
-            onCancel={() => setShowForm(false)}
-          />
-        )}
-
-        <ul className="mt-8 space-y-4 max-w-lg mx-auto">
-          {deliveryPoints.map((point) => (
-            <li
-              key={point.id}
-              className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 transition-colors duration-300"
-            >
-              <span className="text-xl">🧍</span>
-              <div className="flex-1">
-                <p className="font-semibold text-gray-900 dark:text-gray-100">
-                  {point.clientName}
-                </p>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {point.address}
-                </p>
-              </div>
-              <div className="text-gray-700 dark:text-gray-300 font-medium">
-                📦 {point.crates} crate{point.crates !== 1 ? "s" : ""}
-              </div>
-            </li>
-          ))}
-        </ul>
+        <DeliveryList deliveryPoints={deliveryPoints} />
       </main>
     </>
   );
