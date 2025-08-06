@@ -14,7 +14,7 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
   const [clientName, setClientName] = useState("");
   const [address, setAddress] = useState("");
   const [crates, setCrates] = useState(0);
-  const [preferredTime, setPreferredTime] = useState(0);
+  const [preferredTime, setPreferredTime] = useState("");
 
   const handleSubmit = () => {
     if (!clientName || !address) {
@@ -35,6 +35,7 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
     setClientName("");
     setAddress("");
     setCrates(0);
+    setPreferredTime("");
   };
 
   return (
@@ -87,6 +88,22 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
           onChange={(e) => setCrates(parseInt(e.target.value) || 0)}
           placeholder="Crates"
           min={0}
+          className="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400"
+        />
+      </div>
+
+      <div>
+        <Label
+          htmlFor="preferredTime"
+          className="text-gray-700 dark:text-gray-300 font-semibold mb-1 block"
+        >
+          Preferred Drop-off Time
+        </Label>
+        <Input
+          id="preferredTime"
+          type="time"
+          value={preferredTime}
+          onChange={(e) => setPreferredTime(e.target.value)}
           className="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400"
         />
       </div>

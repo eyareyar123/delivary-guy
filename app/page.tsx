@@ -13,6 +13,10 @@ export default function Home() {
     setDeliveryPoints((prev) => [...prev, NewDeliveryPoint]);
   };
 
+  const handleDeletePoint = (id: number) => {
+    setDeliveryPoints((prev) => prev.filter((point) => point.id !== id));
+  };
+
   return (
     <>
       <DarkModeToggle />
@@ -24,7 +28,10 @@ export default function Home() {
 
         <DeliveryForm onAdd={handleAddPoint} />
 
-        <DeliveryList deliveryPoints={deliveryPoints} />
+        <DeliveryList
+          deliveryPoints={deliveryPoints}
+          onDelete={handleDeletePoint}
+        />
       </main>
     </>
   );
