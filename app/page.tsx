@@ -15,39 +15,6 @@ type DeliveryPoint = {
 
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
-  const [showForm, setShowForm] = useState(false);
-
-  // Dark mode state
-  const [isDark, setIsDark] = useState(false);
-
-  // On mount, check if user prefers dark or has saved theme
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      setIsDark(true);
-    } else if (
-      !savedTheme &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      // No saved theme, but OS prefers dark
-      document.documentElement.classList.add("dark");
-      setIsDark(true);
-    }
-  }, []);
-
-  // Toggle dark mode handler
-  const toggleDarkMode = () => {
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
-  };
 
   const handleAddPoint = (
     clientName: string,
