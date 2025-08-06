@@ -69,7 +69,11 @@ export default function Home() {
     <>
       {/* Dark mode toggle button fixed top right */}
       <div className="fixed top-4 right-4 z-50">
-        <Button size="sm" onClick={toggleDarkMode}>
+        <Button
+          size="lg"
+          className="px-8 py-4 text-xl font-semibold"
+          onClick={toggleDarkMode}
+        >
           {isDark ? "Light Mode" : "Dark Mode"}
         </Button>
       </div>
