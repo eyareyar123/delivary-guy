@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DeliveryPoint } from "@/types";
+import AddressInput from "./AddressInput";
 
 type DeliveryFormProps = {
   onAdd: (point: DeliveryPoint) => void;
@@ -57,22 +58,7 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
         />
       </div>
 
-      <div>
-        <Label
-          htmlFor="address"
-          className="text-gray-700 dark:text-gray-300 font-semibold mb-1 block"
-        >
-          Address
-        </Label>
-        <Input
-          id="address"
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder="Address"
-          className="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400"
-        />
-      </div>
+      <AddressInput value={address} onChange={setAddress} />
 
       <div>
         <Label
