@@ -8,8 +8,6 @@ module.exports = {
     },
   },
   rules: {
-    // REMOVE: 'header-match-pattern': [2, 'always'], ❌ NOT A VALID RULE
-
     "type-enum": [
       2,
       "always",
