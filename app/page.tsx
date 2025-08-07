@@ -6,6 +6,9 @@ import DeliveryList from "@/components/DeliveryList";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { DeliveryPoint } from "@/types";
 import Map from "@/components/Map";
+import { LoadScript, Libraries } from "@react-google-maps/api";
+
+const libraries: Libraries = ["places"];
 
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
@@ -20,21 +23,26 @@ export default function Home() {
 
   return (
     <>
-      <DarkModeToggle />
+      <LoadScript
+        googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+        libraries={libraries}
+      >
+        <DarkModeToggle />
 
-      <main className="min-h-screen p-20 bg-white dark:bg-gray-900 dark:text-white transition-colors duration-300">
-        <main className="flex items-center justify-center">
-          <h1 className="text-4xl font-bold">Delivery Line Manager</h1>
+        <main className="min-h-screen p-20 bg-white dark:bg-gray-900 dark:text-white transition-colors duration-300">
+          <main className="flex items-center justify-center">
+            <h1 className="text-4xl font-bold">Delivery Line Manager</h1>
+          </main>
+          <Map />
+
+          <DeliveryForm onAdd={handleAddPoint} />
+
+          <DeliveryList
+            deliveryPoints={deliveryPoints}
+            onDelete={handleDeletePoint}
+          />
         </main>
-        <Map />
-
-        <DeliveryForm onAdd={handleAddPoint} />
-
-        <DeliveryList
-          deliveryPoints={deliveryPoints}
-          onDelete={handleDeletePoint}
-        />
-      </main>
+      </LoadScript>
     </>
   );
 }
