@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DeliveryPoint } from "@/types";
+import { AddressData, DeliveryPoint } from "@/types";
 import AddressInput from "./AddressInput";
 
 type DeliveryFormProps = {
@@ -13,7 +13,7 @@ type DeliveryFormProps = {
 
 export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
   const [clientName, setClientName] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<AddressData>();
   const [crates, setCrates] = useState(0);
   const [preferredTime, setPreferredTime] = useState("");
 
@@ -25,7 +25,7 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
     onAdd({
       id: Date.now(),
       clientName,
-      address,
+      addressData: address,
       crates,
       preferredTime,
     });
@@ -33,8 +33,14 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
   };
 
   const clearValues = () => {
+    const cleanAddress: AddressData = {
+      fullAddress: "",
+      lat: 0,
+      lng: 0,
+      placeId: "",
+    };
     setClientName("");
-    setAddress("");
+    setAddress(cleanAddress);
     setCrates(0);
     setPreferredTime("");
   };
@@ -58,7 +64,7 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
         />
       </div>
 
-      <AddressInput value={address} onChange={setAddress} />
+      <AddressInput onSelectPlace={setAddress} />
 
       <div>
         <Label

@@ -21,7 +21,9 @@ export default function DeliveryList({
         >
           <div>
             <p className="font-semibold">{point.clientName}</p>
-            <p className="text-sm text-gray-500">{point.address}</p>
+            <p className="text-sm text-gray-500">
+              {point.addressData.fullAddress}
+            </p>
             <p className="text-sm text-gray-400">
               📦 {point.crates} crate{point.crates !== 1 ? "s" : ""} — ⏰{" "}
               {point.preferredTime} ±1h
