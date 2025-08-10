@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 import { DeliveryPoint, LatLng } from "@/types";
 
 const containerStyle = {
