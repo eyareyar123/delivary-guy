@@ -6,9 +6,12 @@ export type DeliveryPoint = {
   preferredTime: string;
 };
 
-export type AddressData = {
-  fullAddress: string; // The formatted address
+export type LatLng = {
   lat: number;
   lng: number;
+};
+
+export type AddressData = LatLng & {
+  fullAddress: string; // The formatted address
   placeId: string;
 };

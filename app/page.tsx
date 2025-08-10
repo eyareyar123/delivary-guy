@@ -33,7 +33,7 @@ export default function Home() {
           <main className="flex items-center justify-center">
             <h1 className="text-4xl font-bold">Delivery Line Manager</h1>
           </main>
-          <Map />
+          <Map deliveryPoints={deliveryPoints} />
 
           <DeliveryForm onAdd={handleAddPoint} />
 
