@@ -13,11 +13,11 @@ export default function DeliveryList({
   onDelete,
 }: DeliveryListProps) {
   return (
-    <ul className="mt-8 space-y-4 max-w-lg mx-auto">
+    <ul className="h-full w-3/4 flex flex-wrap justify-center gap-6 p-3 overflow-auto">
       {deliveryPoints.map((point) => (
         <li
           key={point.id}
-          className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 rounded shadow"
+          className="w-3/10 min-w-[320px] h-20 flex p-6 justify-between items-center bg-white dark:bg-gray-800 rounded shadow"
         >
           <div>
             <p className="font-semibold">{point.clientName}</p>
