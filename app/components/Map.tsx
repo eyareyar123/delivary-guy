@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { DeliveryPoint, LatLng } from "@/types";
+import { DeliveryPoint, LatLng } from "@/app/types";
 
 const containerStyle = {
   width: "100%",

@@ -1,6 +1,6 @@
 "use client";
 
-import { DeliveryPoint } from "@/types";
+import { DeliveryPoint } from "@/app/types";
 import React from "react";
 
 type DeliveryListProps = {

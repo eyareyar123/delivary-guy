@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import DeliveryForm from "@/components/DeliveryForm";
-import DeliveryList from "@/components/DeliveryList";
-import DarkModeToggle from "@/components/DarkModeToggle";
-import { DeliveryPoint } from "@/types";
-import Map from "@/components/Map";
+import DeliveryForm from "@/app/components/DeliveryForm";
+import DeliveryList from "@/app/components/DeliveryList";
+import DarkModeToggle from "@/app/components/DarkModeToggle";
+import { DeliveryPoint } from "@/app/types";
+import Map from "@/app/components/Map";
 import { LoadScript, Libraries } from "@react-google-maps/api";
 
 const libraries: Libraries = ["places"];
