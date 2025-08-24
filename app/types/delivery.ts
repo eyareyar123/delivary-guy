@@ -1,3 +1,8 @@
+export type DriversData = {
+  numberOfDrivers: number;
+  driverCapacity: number;
+};
+
 export type DeliveryPoint = {
   id: number;
   clientName: string;

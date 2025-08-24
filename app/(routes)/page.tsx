@@ -4,15 +4,22 @@ import { useState } from "react";
 import DeliveryForm from "@/app/components/DeliveryForm";
 import DeliveryList from "@/app/components/DeliveryList";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
-import { DeliveryPoint } from "@/app/types";
+import { DeliveryPoint, DriversData } from "@/app/types";
 import Map from "@/app/components/Map";
 import { LoadScript, Libraries } from "@react-google-maps/api";
 import CalcRouteButton from "../components/CalcRouteButton";
+import DriversForm from "../components/DriversForm";
+import DriversDisplay from "../components/DriversDisplay";
 
 const libraries: Libraries = ["places"];
 
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
+
+  const [drivers, setDrivers] = useState<DriversData>({
+    numberOfDrivers: 0,
+    driverCapacity: 0,
+  });
 
   const handleAddPoint = (NewDeliveryPoint: DeliveryPoint) => {
     setDeliveryPoints((prev) => [...prev, NewDeliveryPoint]);
@@ -20,6 +27,10 @@ export default function Home() {
 
   const handleDeletePoint = (id: number) => {
     setDeliveryPoints((prev) => prev.filter((point) => point.id !== id));
+  };
+
+  const handleAddDrivers = (driversData: DriversData) => {
+    setDrivers(driversData);
   };
 
   return (
@@ -39,6 +50,10 @@ export default function Home() {
 
           <div className="flex justify-between items-center w-full max-h-100 gap-x-20 ">
             <DeliveryForm onAdd={handleAddPoint} />
+
+            <DriversForm onAdd={handleAddDrivers} />
+
+            <DriversDisplay driversData={drivers} />
 
             <DeliveryList
               deliveryPoints={deliveryPoints}
