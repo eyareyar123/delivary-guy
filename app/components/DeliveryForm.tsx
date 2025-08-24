@@ -46,7 +46,7 @@ export default function DeliveryForm({ onAdd }: DeliveryFormProps) {
   };
 
   return (
-    <div className="m-auto w-100 flex flex-col space-y-6  bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-colors duration-300">
+    <div className="w-100 flex flex-col space-y-6  bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-colors duration-300">
       <div>
         <Label
           htmlFor="clientName"

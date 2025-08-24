@@ -13,7 +13,7 @@ export default function DeliveryList({
   onDelete,
 }: DeliveryListProps) {
   return (
-    <ul className="h-full w-3/4 flex flex-wrap justify-center gap-6 p-3 overflow-auto">
+    <ul className="h-full w-3/4 flex flex-wrap justify-center gap-6  overflow-auto">
       {deliveryPoints.map((point) => (
         <li
           key={point.id}
