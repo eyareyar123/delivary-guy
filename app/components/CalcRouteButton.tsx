@@ -29,7 +29,11 @@ export default function CalcRouteButton({ deliveryPoints }: CalcButtonProps) {
   };
 
   return (
-    <Button onClick={calcRoute} disabled={loading}>
+    <Button
+      onClick={calcRoute}
+      disabled={loading}
+      className="w-64 h-64 text-4xl font-semibold"
+    >
       {loading ? "Calculating..." : "Calc Route"}
     </Button>
   );
