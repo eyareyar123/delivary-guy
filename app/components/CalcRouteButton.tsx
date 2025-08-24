@@ -13,7 +13,19 @@ export default function CalcRouteButton({ deliveryPoints }: CalcButtonProps) {
 
   const calcRoute = async () => {
     setLoading(true);
-    // send request to client here - WIP
+    try {
+      const res = await fetch("/api/route", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ points: deliveryPoints, vehicleCount: 6 }),
+      });
+      const data = await res.json();
+      console.log("Optimized route from server:", data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
