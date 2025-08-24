@@ -7,6 +7,7 @@ import DarkModeToggle from "@/app/components/DarkModeToggle";
 import { DeliveryPoint } from "@/app/types";
 import Map from "@/app/components/Map";
 import { LoadScript, Libraries } from "@react-google-maps/api";
+import CalcRouteButton from "../components/CalcRouteButton";
 
 const libraries: Libraries = ["places"];
 
@@ -36,13 +37,14 @@ export default function Home() {
 
           <Map deliveryPoints={deliveryPoints} />
 
-          <div className="flex justify-between items-center w-full max-h-100 ">
+          <div className="flex justify-between items-center w-full max-h-100 gap-x-20 ">
             <DeliveryForm onAdd={handleAddPoint} />
 
             <DeliveryList
               deliveryPoints={deliveryPoints}
               onDelete={handleDeletePoint}
             />
+            <CalcRouteButton deliveryPoints={deliveryPoints} />
           </div>
         </main>
       </LoadScript>

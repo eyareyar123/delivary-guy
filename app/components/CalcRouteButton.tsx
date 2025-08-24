@@ -1,28 +1,24 @@
 "use client";
 
-import {} from "react";
+import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
+import { DeliveryPoint } from "../types";
 
-export default function CalcRouteButton() {
+type CalcButtonProps = {
+  deliveryPoints: DeliveryPoint[];
+};
+
+export default function CalcRouteButton({ deliveryPoints }: CalcButtonProps) {
+  const [loading, setLoading] = useState(false);
+
   const calcRoute = async () => {
-    console.log("sending calc route from client...");
-
-    try {
-      const res = await fetch("/api/distance"); // call your server route
-      const data = await res.json();
-      console.log("Client got response:", data);
-    } catch (err) {
-      console.error("Error calling API:", err);
-    }
+    setLoading(true);
+    // send request to client here - WIP
   };
 
   return (
-    <Button
-      size="lg"
-      className="w-64 h-64 text-4xl font-semibold"
-      onClick={calcRoute}
-    >
-      calc route
+    <Button onClick={calcRoute} disabled={loading}>
+      {loading ? "Calculating..." : "Calc Route"}
     </Button>
   );
 }
