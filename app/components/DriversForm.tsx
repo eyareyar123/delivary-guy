@@ -8,11 +8,16 @@ import { DriversData } from "../types";
 
 type DriversForm = {
   onAdd: (driversData: DriversData) => void;
+  driversData: DriversData;
 };
 
-export default function DriversForm({ onAdd }: DriversForm) {
-  const [numberOfDrivers, setNumberOfDrivers] = useState(0);
-  const [driverCapacity, setDriverCapacity] = useState(0);
+export default function DriversForm({ onAdd, driversData }: DriversForm) {
+  const [numberOfDrivers, setNumberOfDrivers] = useState(
+    driversData.numberOfDrivers
+  );
+  const [driverCapacity, setDriverCapacity] = useState(
+    driversData.numberOfDrivers
+  );
 
   const handleSubmit = () => {
     if (!numberOfDrivers || !driverCapacity) {
@@ -20,7 +25,6 @@ export default function DriversForm({ onAdd }: DriversForm) {
       return;
     }
     onAdd({ numberOfDrivers, driverCapacity });
-    clearValues();
   };
 
   const clearValues = () => {

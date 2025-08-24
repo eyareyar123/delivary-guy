@@ -17,8 +17,8 @@ export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
 
   const [drivers, setDrivers] = useState<DriversData>({
-    numberOfDrivers: 0,
-    driverCapacity: 0,
+    numberOfDrivers: 1,
+    driverCapacity: 1,
   });
 
   const handleAddPoint = (NewDeliveryPoint: DeliveryPoint) => {
@@ -51,7 +51,7 @@ export default function Home() {
           <div className="flex justify-between items-center w-full max-h-100 gap-x-20 ">
             <DeliveryForm onAdd={handleAddPoint} />
 
-            <DriversForm onAdd={handleAddDrivers} />
+            <DriversForm onAdd={handleAddDrivers} driversData={drivers} />
 
             <DriversDisplay driversData={drivers} />
 
@@ -59,7 +59,10 @@ export default function Home() {
               deliveryPoints={deliveryPoints}
               onDelete={handleDeletePoint}
             />
-            <CalcRouteButton deliveryPoints={deliveryPoints} />
+            <CalcRouteButton
+              deliveryPoints={deliveryPoints}
+              driversData={drivers}
+            />
           </div>
         </main>
       </LoadScript>

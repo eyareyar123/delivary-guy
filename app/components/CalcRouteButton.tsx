@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
 import { DeliveryPoint, DriversData } from "../types";
+import { RouteOptimizeRequest } from "../types/api";
 
 type CalcButtonProps = {
   deliveryPoints: DeliveryPoint[];
@@ -23,8 +24,8 @@ export default function CalcRouteButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           points: deliveryPoints,
-          vehicleCount: driversData.numberOfDrivers,
-        }),
+          numberOfDrivers: driversData.numberOfDrivers,
+        } as RouteOptimizeRequest),
       });
       const data = await res.json();
       console.log("Optimized route from server:", data);
