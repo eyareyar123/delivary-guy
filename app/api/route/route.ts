@@ -1,23 +1,66 @@
 "use server";
 
+import { RouteOptimizeRequest } from "@/app/types/api";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+const RouteOptimizeSchema = z.object({
+  points: z.array(
+    z.object({
+      id: z.number(),
+      clientName: z.string(),
+      addressData: z.object({
+        lat: z.number(),
+        lng: z.number(),
+        fullAddress: z.string(),
+        placeId: z.string(),
+      }),
+      crates: z.number(),
+      preferredTime: z.string(),
+    })
+  ),
+  numberOfDrivers: z.number(),
+});
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  console.log("Node.js received points:", body.points);
+  const parsed = RouteOptimizeSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
+  const { points, numberOfDrivers } = parsed.data;
 
-  // Send to Python FastAPI
+  // Build origins and destinations
+  const origins = points.map(
+    (p) => `${p.addressData.lat},${p.addressData.lng}`
+  );
+  const destinations = origins;
+
+  const apiKey = process.env.NEXT_PRIVATE_GOOGLE_MAPS_API_KEY!;
+  const params = new URLSearchParams({
+    origins: origins.join("|"),
+    destinations: destinations.join("|"),
+    mode: "driving",
+    key: apiKey,
+  });
+
+  const res = await fetch(
+    `https://maps.googleapis.com/maps/api/distancematrix/json?${params}`
+  );
+  const distanceData = await res.json();
+
+  const payload = { points, numberOfDrivers, distanceMatrix: distanceData };
+
   try {
-    const pythonResponse = await fetch("http://localhost:8000/solve-vrptw", {
+    const pythonRes = await fetch("http://localhost:8000/solve-vrptw", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
-    const data = await pythonResponse.json();
-
-    console.log("Python response:", data);
+    const data = await pythonRes.json();
     return NextResponse.json(data);
   } catch (err) {
-    console.error("Error calling Python service:", err);
+    console.error(err);
     return NextResponse.json(
       { error: "Python service unreachable" },
       { status: 500 }

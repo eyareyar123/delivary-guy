@@ -25,10 +25,10 @@ export default function CalcRouteButton({
         body: JSON.stringify({
           points: deliveryPoints,
           numberOfDrivers: driversData.numberOfDrivers,
-        } as RouteOptimizeRequest),
+        }),
       });
       const data = await res.json();
-      console.log("Optimized route from server:", data);
+      console.log("Optimized route:", data);
     } catch (err) {
       console.error(err);
     } finally {

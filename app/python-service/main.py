@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List
+from typing import List, Any
 
 app = FastAPI()
 
-# Data models
 class AddressData(BaseModel):
     lat: float
     lng: float
@@ -20,16 +19,16 @@ class DeliveryPoint(BaseModel):
 
 class RouteRequest(BaseModel):
     points: List[DeliveryPoint]
-    vehicleCount: int
+    numberOfDrivers: int
+    distanceMatrix: Any
 
 @app.post("/solve-vrptw")
 async def solve_vrptw(request: RouteRequest):
-    # Dummy response: split points evenly per vehicle
-    vehicles = [{"vehicle": i+1, "points": []} for i in range(request.vehicleCount)]
-    for idx, p in enumerate(request.points):
-        vehicles[idx % request.vehicleCount]["points"].append(p.id)
-    return {"routes": vehicles}
+    print("Number of drivers:", request.numberOfDrivers)
+    print("Distance matrix received")
 
-@app.get("/health")
-def health():
-    return {"status": "alive"}
+    vehicles = [{"vehicle": i + 1, "points": []} for i in range(request.numberOfDrivers)]
+    for idx, p in enumerate(request.points):
+        vehicles[idx % request.numberOfDrivers]["points"].append(p.id)
+
+    return {"routes": vehicles}
