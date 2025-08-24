@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
-import { DeliveryPoint } from "../types";
+import { DeliveryPoint, DriversData } from "../types";
 
 type CalcButtonProps = {
   deliveryPoints: DeliveryPoint[];
+  driversData: DriversData;
 };
 
-export default function CalcRouteButton({ deliveryPoints }: CalcButtonProps) {
+export default function CalcRouteButton({
+  deliveryPoints,
+  driversData,
+}: CalcButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const calcRoute = async () => {
@@ -17,7 +21,10 @@ export default function CalcRouteButton({ deliveryPoints }: CalcButtonProps) {
       const res = await fetch("/api/route", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ points: deliveryPoints, vehicleCount: 6 }),
+        body: JSON.stringify({
+          points: deliveryPoints,
+          vehicleCount: driversData.numberOfDrivers,
+        }),
       });
       const data = await res.json();
       console.log("Optimized route from server:", data);
