@@ -1,6 +1,7 @@
-export type DriversData = {
-  numberOfDrivers: number;
-  driverCapacity: number;
+export type Driver = {
+  id: number;
+  name: string;
+  capacity: number;
 };
 
 export type DeliveryPoint = {

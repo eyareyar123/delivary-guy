@@ -4,50 +4,49 @@ import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { DriversData } from "../types";
+import { Driver } from "../types";
 
 type DriversForm = {
-  onAdd: (driversData: DriversData) => void;
-  driversData: DriversData;
+  onAdd: (driversData: Driver) => void;
+  driversData: Driver[];
 };
 
-export default function DriversForm({ onAdd, driversData }: DriversForm) {
-  const [numberOfDrivers, setNumberOfDrivers] = useState(
-    driversData.numberOfDrivers
-  );
-  const [driverCapacity, setDriverCapacity] = useState(
-    driversData.numberOfDrivers
-  );
+export default function DriversForm({ onAdd }: DriversForm) {
+  const [driverName, setDriverName] = useState<string>("");
+  const [driverCapacity, setDriverCapacity] = useState<number>();
 
   const handleSubmit = () => {
-    if (!numberOfDrivers || !driverCapacity) {
+    if (!driverName || !driverCapacity) {
       alert("Please fill in all required fields.");
       return;
     }
-    onAdd({ numberOfDrivers, driverCapacity });
+    onAdd({
+      id: Date.now(),
+      name: driverName,
+      capacity: driverCapacity,
+    });
   };
 
   const clearValues = () => {
     setDriverCapacity(0);
-    setNumberOfDrivers(0);
+    setDriverName("");
   };
 
   return (
     <div className="w-100 h-100 flex flex-col space-y-6  bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-colors duration-300">
       <div>
         <Label
-          htmlFor="numberOfDrivers"
+          htmlFor="driverName"
           className="text-gray-700 dark:text-gray-300 font-semibold mb-1 block"
         >
-          Number of Drivers
+          Driver Name
         </Label>
         <Input
-          id="numberOfDrivers"
-          type="number"
-          value={numberOfDrivers}
-          onChange={(e) => setNumberOfDrivers(parseInt(e.target.value) || 0)}
-          placeholder="Number Of Drivers"
-          min={0}
+          id="driverName"
+          type="string"
+          value={driverName}
+          onChange={(e) => setDriverName(e.target.value || "")}
+          placeholder="Driver Name"
           className="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400"
         />
       </div>
@@ -57,7 +56,7 @@ export default function DriversForm({ onAdd, driversData }: DriversForm) {
           htmlFor="driverCapacity"
           className="text-gray-700 dark:text-gray-300 font-semibold mb-1 block"
         >
-          Capacity per Driver
+          Driver Capacity
         </Label>
         <Input
           id="driverCapacity"

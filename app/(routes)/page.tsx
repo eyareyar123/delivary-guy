@@ -4,7 +4,7 @@ import { useState } from "react";
 import DeliveryForm from "@/app/components/DeliveryForm";
 import DeliveryList from "@/app/components/DeliveryList";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
-import { DeliveryPoint, DriversData } from "@/app/types";
+import { DeliveryPoint, Driver } from "@/app/types";
 import Map from "@/app/components/Map";
 import { LoadScript, Libraries } from "@react-google-maps/api";
 import CalcRouteButton from "../components/CalcRouteButton";
@@ -16,10 +16,7 @@ const libraries: Libraries = ["places"];
 export default function Home() {
   const [deliveryPoints, setDeliveryPoints] = useState<DeliveryPoint[]>([]);
 
-  const [drivers, setDrivers] = useState<DriversData>({
-    numberOfDrivers: 1,
-    driverCapacity: 1,
-  });
+  const [drivers, setDrivers] = useState<Driver[]>([]);
 
   const handleAddPoint = (NewDeliveryPoint: DeliveryPoint) => {
     setDeliveryPoints((prev) => [...prev, NewDeliveryPoint]);
@@ -29,8 +26,8 @@ export default function Home() {
     setDeliveryPoints((prev) => prev.filter((point) => point.id !== id));
   };
 
-  const handleAddDrivers = (driversData: DriversData) => {
-    setDrivers(driversData);
+  const handleAddDrivers = (driversData: Driver) => {
+    setDrivers((prev) => [...prev, driversData]);
   };
 
   return (
@@ -48,12 +45,12 @@ export default function Home() {
 
           <Map deliveryPoints={deliveryPoints} />
 
-          <div className="flex justify-between items-center w-full max-h-100 gap-x-20 ">
+          <div className="flex justify-between items-center w-full max-h-100 gap-x-5 ">
             <DeliveryForm onAdd={handleAddPoint} />
 
             <DriversForm onAdd={handleAddDrivers} driversData={drivers} />
 
-            <DriversDisplay driversData={drivers} />
+            <DriversDisplay drivers={drivers} />
 
             <DeliveryList
               deliveryPoints={deliveryPoints}
