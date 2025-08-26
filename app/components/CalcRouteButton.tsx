@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "@/app/components/ui/button";
-import { DeliveryPoint, DriversData } from "../types";
-import { RouteOptimizeRequest } from "../types/api";
+import { DeliveryPoint, Driver } from "../types";
 
 type CalcButtonProps = {
   deliveryPoints: DeliveryPoint[];
-  driversData: DriversData;
+  drivers: Driver[];
 };
 
 export default function CalcRouteButton({
   deliveryPoints,
-  driversData,
+  drivers,
 }: CalcButtonProps) {
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +23,7 @@ export default function CalcRouteButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           points: deliveryPoints,
-          numberOfDrivers: driversData.numberOfDrivers,
+          drivers: drivers,
         }),
       });
       const data = await res.json();

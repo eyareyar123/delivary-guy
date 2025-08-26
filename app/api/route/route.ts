@@ -1,6 +1,5 @@
 "use server";
 
-import { RouteOptimizeRequest } from "@/app/types/api";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -19,16 +18,25 @@ const RouteOptimizeSchema = z.object({
       preferredTime: z.string(),
     })
   ),
-  numberOfDrivers: z.number(),
+  drivers: z.array(
+    z.object({
+      id: z.number(),
+      name: z.string(),
+      capacity: z.number(),
+    })
+  ),
 });
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsed = RouteOptimizeSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+    return NextResponse.json(
+      { error: `Invalid body, ${parsed.error}` },
+      { status: 400 }
+    );
   }
-  const { points, numberOfDrivers } = parsed.data;
+  const { points, drivers } = parsed.data;
 
   // Build origins and destinations
   const origins = points.map(
@@ -49,7 +57,7 @@ export async function POST(req: NextRequest) {
   );
   const distanceData = await res.json();
 
-  const payload = { points, numberOfDrivers, distanceMatrix: distanceData };
+  const payload = { points, drivers, distanceMatrix: distanceData };
 
   try {
     const pythonRes = await fetch("http://localhost:8000/solve-vrptw", {
