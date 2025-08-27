@@ -1,9 +1,3 @@
-export type Driver = {
-  id: number;
-  name: string;
-  capacity: number;
-};
-
 export type DeliveryPoint = {
   id: number;
   clientName: string;

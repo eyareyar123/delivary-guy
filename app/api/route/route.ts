@@ -1,35 +1,11 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-
-const RouteOptimizeSchema = z.object({
-  points: z.array(
-    z.object({
-      id: z.number(),
-      clientName: z.string(),
-      addressData: z.object({
-        lat: z.number(),
-        lng: z.number(),
-        fullAddress: z.string(),
-        placeId: z.string(),
-      }),
-      crates: z.number(),
-      preferredTime: z.string(),
-    })
-  ),
-  drivers: z.array(
-    z.object({
-      id: z.number(),
-      name: z.string(),
-      capacity: z.number(),
-    })
-  ),
-});
+import { routeOptimizeAPISchema } from "../zod-schemas/RouteOptimizeSchemas";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const parsed = RouteOptimizeSchema.safeParse(body);
+  const parsed = routeOptimizeAPISchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       { error: `Invalid body, ${parsed.error}` },
