@@ -1,40 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Delivery-Guy Project
 
-## Getting Started
+A **full-stack delivery management and optimization system**. The project provides a **Next.js frontend** for managing delivery points and drivers, integrates with **Google Maps APIs** for geocoding and routing, and uses a **Python FastAPI backend** with **Google OR-Tools** (planned) for solving the Vehicle Routing Problem (VRP), eventually extending to **VRPTW (Vehicle Routing Problem with Time Windows)**.
 
-First, run the development server:
+The system is designed for logistics-style optimization where multiple drivers must deliver crates to many clients, minimizing the number of drivers while respecting capacity and maximum work duration.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- **Delivery Point Management**
+
+  - Add delivery points with client name, geolocation, and preferred time.
+  - Address autocomplete and place details via **Google Maps Places API**.
+  - Store crate counts per delivery.
+
+- **Driver Management**
+
+  - Add drivers with ID, name, and crate capacity.
+  - All drivers start from a common depot (hardcoded for now).
+
+- **Optimization**
+
+  - Next.js backend fetches a **distance matrix** via Google Distance Matrix API.
+  - Python FastAPI service solves the VRP using that matrix.
+  - Optimization goal: minimize the number of active drivers while ensuring capacity and 10h driving limit per driver.
+  - Future: handle **time windows** with earliest/latest delivery times.
+
+- **Visualization**
+  - Delivery points and routes displayed on a Google Map.
+  - Clean UI using **shadcn/ui** components + Tailwind CSS.
+
+---
+
+## 🧱 Architecture
+
+### Frontend & Middleware (Next.js)
+
+- Framework: **Next.js (App Router)**
+- Styling: **Tailwind CSS + shadcn/ui**
+- Maps Integration: **@react-google-maps/api**
+- Validation: **Zod** schemas (strict request validation)
+- API Routes:
+  - `/api/route-optimize`: Validates input, fetches Distance Matrix from Google, sends structured payload to Python.
+
+### Backend Optimization (Python)
+
+- Framework: **FastAPI**
+- Planned Solver: **Google OR-Tools** for VRP/VRPTW
+- Models:
+  - `Driver` (id, name, capacity)
+  - `DeliveryPoint` (id, clientName, addressData, crates, preferredTime)
+  - `AddressData` (lat, lng, placeId, fullAddress)
+  - `RouteRequest` (depot, points, drivers, distanceMatrix)
+- Endpoint:
+  - `POST /solve-vrptw`: Receives payload, solves VRP, returns optimized routes.
+
+### Data Flow
+
+1. User inputs delivery points + drivers in the UI.
+2. Next.js validates and builds a Distance Matrix with Google Maps API.
+3. Payload `{ depot, points, drivers, distanceMatrix }` sent to FastAPI.
+4. FastAPI optimizer computes optimal routes.
+5. Optimized routes returned and visualized on the map.
+
+---
+
+## 📦 Packages & Dependencies
+
+### Frontend (Next.js)
+
+- `next`
+- `react`
+- `@react-google-maps/api`
+- `tailwindcss`
+- `shadcn/ui`
+- `zod`
+
+### Backend (Python)
+
+- `fastapi`
+- `pydantic`
+- `uvicorn`
+- `ortools` (planned for optimization)
+
+### External APIs
+
+- **Google Maps Distance Matrix API**
+- **Google Maps Places API** (for autocomplete + place details)
+
+---
+
+## 📂 Project Structure (planned)
+
+```
+app/
+  ├─ page.tsx                # Home page
+  ├─ api/
+  │   └─ route-optimize/
+  │       └─ route.ts        # API endpoint for optimization
+  ├─ components/
+  │   ├─ DeliveryList.tsx
+  │   ├─ DeliveryForm.tsx
+  │   ├─ AddressInput.tsx
+  │   └─ Map.tsx
+  ├─ zod-schemas/
+  │   └─ RouteOptimizeSchemas.ts
+  └─ types/
+      └─ index.ts
+
+python-service/
+  ├─ main.py                 # FastAPI app
+  └─ models.py               # Data models (Driver, DeliveryPoint, etc.)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Development Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pip install fastapi uvicorn pydantic ortools
+uvicorn main:app --reload --port 8000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Environment
 
-## Deploy on Vercel
+- `NEXT_PRIVATE_GOOGLE_MAPS_API_KEY` — Google Maps API key (Distance Matrix, Places, etc.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔮 Roadmap
 
-TBD!!!
+- [ ] Implement VRP solver with OR-Tools
+- [ ] Add time windows (VRPTW)
+- [ ] Visualize optimized routes on the map
+- [ ] Support multiple depots
+- [ ] Add heuristics/metaheuristics for larger datasets (>1000 points)
 
-using shadcn for components
+---
+
+## 📝 Author
+
+- **Eyar** — Full-stack developer, photographer, traveler, and cooking enthusiast. Passionate about building smart logistics tools and experimenting with maps + optimization.
